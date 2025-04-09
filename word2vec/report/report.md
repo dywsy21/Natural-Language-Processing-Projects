@@ -84,6 +84,7 @@ def load_model(model_path):
 
 - 输入单个词，获取与之最相似的10个词
 - 输入两个词（空格分隔），计算它们之间的相似度
+- 输入vector_math和三个词a, b, c，计算与`a - b + c`最近的词向量
 - 输入'q'退出程序
 
 ### 词汇分割处理
@@ -122,6 +123,26 @@ if len(segments) > 1:
     Query: 猫 狗
     Similarity between '猫' and '狗': 0.7857
 ```
+
+3. 词向量的语言学特性探索：
+
+在query的开头加上vector_math即可进入use_model.py的词向量加减模式，以下是测试出的几个样例：
+
+```
+Query: vector_math 北京 中国 法国
+Vector math: '北京' - '中国' + '法国' ≈ '巴黎' (similarity: 0.6240)
+This is solving the analogy: 中国 is to 北京 as 法国 is to 巴黎
+
+Query: vector_math 笔 作家 画家
+Vector math: '笔' - '作家' + '画家' ≈ '油画笔' (similarity: 0.5524)
+This is solving the analogy: 作家 is to 笔 as 画家 is to 油画笔
+
+Query: vector_math 学生 作业 考试
+Vector math: '学生' - '作业' + '考试' ≈ '考生' (similarity: 0.7092)
+This is solving the analogy: 作业 is to 学生 as 考试 is to 考生
+```
+
+这允许了我们有效地探索训练出的词向量空间，了解词与词之间的语义关联和语法关系。词向量空间不仅能表示词的相似度，还能通过向量运算揭示语言中更深层次的类比关系。这种能力使得词向量模型可以回答形如"A之于B相当于C之于什么？"的问题，展示了模型对语言结构的深层理解。
 
 ## 总结
 
